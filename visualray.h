@@ -17,7 +17,7 @@ float pixel_scale = (float)11.0f / 24.0f;
 char shade_gradient[] = ".:!/r(l1Z4H9W8$@";//".-=a#";// ".-=oaG&@"
 char shade_size = std::size(shade_gradient) - 2;
 
-//двумерный вектор
+//РґРІСѓРјРµСЂРЅС‹Р№ РІРµРєС‚РѕСЂ
 struct vec2 {
 	float x = 0.0;
 	float y = 0.0;
@@ -37,7 +37,7 @@ struct vec2 {
 
 	float length() { return sqrt(x * x + y * y); }
 };
-//трёхмерный вектор
+//С‚СЂС‘С…РјРµСЂРЅС‹Р№ РІРµРєС‚РѕСЂ
 struct vec3 {
 	float x = 0.0;
 	float y = 0.0;
@@ -90,7 +90,7 @@ vec2 sphereInter(vec3 veca, vec3 vecb, float radius) {
 	return vec2(-b - h, -b + h);
 }
 
-//заполнение кадра пустыми символами
+//Р·Р°РїРѕР»РЅРµРЅРёРµ РєР°РґСЂР° РїСѓСЃС‚С‹РјРё СЃРёРјРІРѕР»Р°РјРё
 char* clearBuff(char* buff) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
@@ -101,7 +101,7 @@ char* clearBuff(char* buff) {
 	return buff;
 }
 
-//отрисовка кадра
+//РѕС‚СЂРёСЃРѕРІРєР° РєР°РґСЂР°
 void drawBuff(char* buff) {
 	std::cout << buff;
 }
@@ -113,8 +113,8 @@ void drawBuffA(char* buff, HANDLE Console, DWORD BytesWritten, bool showInfo = t
 	WriteConsoleOutputCharacterA(Console, buff, width * height, { 0, 0 }, &BytesWritten);
 }
 
-//функции отрисовки базовой геометрии
-//прямоугольник
+//С„СѓРЅРєС†РёРё РѕС‚СЂРёСЃРѕРІРєРё Р±Р°Р·РѕРІРѕР№ РіРµРѕРјРµС‚СЂРёРё
+//РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
 char* drawBox(char* buff, float pos_x = 0, float pos_y = 0, float size_x = 0.1, float size_y = 0.1, char filler = fill) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
@@ -131,7 +131,7 @@ char* drawBox(char* buff, float pos_x = 0, float pos_y = 0, float size_x = 0.1, 
 	return buff;
 }
 
-//эллипс
+//СЌР»Р»РёРїСЃ
 char* drawEllipse(char* buff, float pos_x = 0, float pos_y = 0, float size_x = 0.1, float size_y = 0.1, char filler = fill) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
@@ -147,7 +147,7 @@ char* drawEllipse(char* buff, float pos_x = 0, float pos_y = 0, float size_x = 0
 	return buff;
 }
 
-//перегрузки функций отрисовки c использованием двумерных векторов
+//РїРµСЂРµРіСЂСѓР·РєРё С„СѓРЅРєС†РёР№ РѕС‚СЂРёСЃРѕРІРєРё c РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РґРІСѓРјРµСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ
 char* drawBox(char* buff, vec2 pos = vec2(0), vec2 size = vec2(0.1, 0.1), char filler = fill) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
