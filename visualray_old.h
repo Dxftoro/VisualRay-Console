@@ -1,3 +1,4 @@
+//DO NOT USE THIS HEADER, BECAUSE IT IS DEPRECATED. USE "visualray.h" INSTEAD!
 #pragma once
 #include<iostream>
 #include<Windows.h>
