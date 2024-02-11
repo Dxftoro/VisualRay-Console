@@ -96,26 +96,6 @@ public:
 	std::string shade_gradient = ".:!/r(l1Z4H9W8$@";
 	int shade_size = shade_gradient.size();
 
-	void setScreenSize(int new_width, int new_height) {
-		this->width = new_width;
-		this->height = new_height;
-		this->screen_scale = (float)width / height;
-		this->buff = new char[new_width * new_height + 1];
-		buff[new_width * new_height] = '\0';
-	}
-
-	void setPixelSize(int new_width, int new_height) {
-		this->pixel_width = new_width;
-		this->pixel_height = new_height;
-		this->pixel_scale = (float)pixel_width / pixel_height;
-	}
-
-	//изменение градиента затемнения объектов
-	void setShadeGradient(std::string gradient_str) {
-		this->shade_gradient = gradient_str;
-		this->shade_size = shade_gradient.size();
-	}
-
 	//заполнение кадра пустыми символами
 	void clearBuff() {
 		for (int i = 0; i < width; i++) {
@@ -128,6 +108,26 @@ public:
 	Frame() {
 		buff[width * height] = '\0';
 		this->clearBuff();
+	}
+
+	void setScreenSize(int new_width, int new_height) {
+		this->width = new_width;
+		this->height = new_height;
+		this->screen_scale = (float)width / height;
+		this->buff = new char[new_width * new_height + 1];
+		this->clearBuff();
+	}
+
+	void setPixelSize(int new_width, int new_height) {
+		this->pixel_width = new_width;
+		this->pixel_height = new_height;
+		this->pixel_scale = (float)pixel_width / pixel_height;
+	}
+
+	//изменение градиента затемнения объектов
+	void setShadeGradient(std::string gradient_str) {
+		this->shade_gradient = gradient_str;
+		this->shade_size = shade_gradient.size();
 	}
 
 	//отрисовка кадра
