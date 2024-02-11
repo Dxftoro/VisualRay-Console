@@ -7,7 +7,7 @@
 #include<fstream>
 //#include "colors.h"
 
-//двумерный вектор
+//РґРІСѓРјРµСЂРЅС‹Р№ РІРµРєС‚РѕСЂ
 struct vec2 {
 	float x = 0.0;
 	float y = 0.0;
@@ -27,7 +27,7 @@ struct vec2 {
 
 	float length() { return sqrt(x * x + y * y); }
 };
-//трёхмерный вектор
+//С‚СЂС‘С…РјРµСЂРЅС‹Р№ РІРµРєС‚РѕСЂ
 struct vec3 {
 	float x = 0.0;
 	float y = 0.0;
@@ -96,13 +96,13 @@ public:
 	std::string shade_gradient = ".:!/r(l1Z4H9W8$@";
 	int shade_size = shade_gradient.size();
 
-	//изменение градиента затемнения объектов
+	//РёР·РјРµРЅРµРЅРёРµ РіСЂР°РґРёРµРЅС‚Р° Р·Р°С‚РµРјРЅРµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ
 	void setShadeGradient(std::string gradient_str) {
 		this->shade_gradient = gradient_str;
 		this->shade_size = shade_gradient.size();
 	}
 
-	//заполнение кадра пустыми символами
+	//Р·Р°РїРѕР»РЅРµРЅРёРµ РєР°РґСЂР° РїСѓСЃС‚С‹РјРё СЃРёРјРІРѕР»Р°РјРё
 	void clearBuff() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -116,7 +116,7 @@ public:
 		this->clearBuff();
 	}
 
-	//отрисовка кадра
+	//РѕС‚СЂРёСЃРѕРІРєР° РєР°РґСЂР°
 	void drawBuff() {
 		std::cout << buff;
 	}
@@ -127,10 +127,10 @@ public:
 		WriteConsoleOutputCharacterA(Console, buff, width * height, { 0, 0 }, &BytesWritten);
 	}
 
-	//функции отрисовки базовой геометрии
-	//функции отрисовки c использованием двумерных векторов
+	//С„СѓРЅРєС†РёРё РѕС‚СЂРёСЃРѕРІРєРё Р±Р°Р·РѕРІРѕР№ РіРµРѕРјРµС‚СЂРёРё
+	//С„СѓРЅРєС†РёРё РѕС‚СЂРёСЃРѕРІРєРё c РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РґРІСѓРјРµСЂРЅС‹С… РІРµРєС‚РѕСЂРѕРІ
 
-	//прямоугольник
+	//РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
 	void drawBox(vec2 pos = vec2(0), vec2 size = vec2(0.1, 0.1), char filler = '#') {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -144,7 +144,7 @@ public:
 			}
 		}
 	}
-	//эллипс
+	//СЌР»Р»РёРїСЃ
 	void drawEllipse(vec2 pos = vec2(0), vec2 size = vec2(0.1, 0.1), char filler = '#') {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -157,7 +157,7 @@ public:
 			}
 		}
 	}
-	//плоскость...
+	//РїР»РѕСЃРєРѕСЃС‚СЊ...
 	void drawPlane(vec2 pos1 = vec2(0), vec2 pos2 = vec2(0), bool negation = true, char filler = '#') {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
@@ -173,7 +173,7 @@ public:
 			}
 		}
 	}
-	//3д сфера (бета)
+	//3Рґ СЃС„РµСЂР° (Р±РµС‚Р°)
 	void drawSphere(float radius = 1.0, vec3 camera = vec3(-1.5, 0, 0), vec3 light = vec3(-0.5, 0.5, -1.0)) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
