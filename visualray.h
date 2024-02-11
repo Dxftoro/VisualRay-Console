@@ -101,6 +101,7 @@ public:
 		this->height = new_height;
 		this->screen_scale = (float)width / height;
 		this->buff = new char[new_width * new_height + 1];
+		buff[new_width * new_height] = '\0';
 	}
 
 	void setPixelSize(int new_width, int new_height) {
