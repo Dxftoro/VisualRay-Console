@@ -1,3 +1,4 @@
+//GitHub: https://github.com/Dxftoro
 #pragma once
 #include<iostream>
 #include<Windows.h>
@@ -80,21 +81,51 @@ vec2 sphereInter(vec3 veca, vec3 vecb, float radius) {
 	return vec2(-b - h, -b + h);
 }
 
+int getConsoleWidth() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.srWindow.Right - csbi.srWindow.Left + 1;
+}
+int getConsoleHeight() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	return csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+}
+
+void handleConsole(HANDLE& Console, DWORD& BytesWritten) {
+	Console = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+	SetConsoleActiveScreenBuffer(Console);
+	BytesWritten = 0;
+}
+
+struct ConsoleBuffer {
+	HANDLE Console;
+	DWORD BytesWritten;
+
+	void Handle() {
+		Console = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+		SetConsoleActiveScreenBuffer(Console);
+		BytesWritten = 0;
+	}
+};
+
 class Frame {
 public:
-	int width = 120;
-	int height = 30;
+	unsigned int width = 120;
+	unsigned int height = 30;
 	float pixel_width = 11.0;
 	float pixel_height = 24.0;
 
 	float screen_scale = (float)width / height;
 	float pixel_scale = (float)pixel_width / pixel_height;
 
-	char* buff = new char[width * height + 1]; //<<<<------------------------
+	char* buff; //<<<<------------------------
 	char empty_sym = ' ';
 
 	std::string shade_gradient = ".:!/r(l1Z4H9W8$@";
-	int shade_size = shade_gradient.size();
+	size_t shade_size = shade_gradient.size();
 
 	//заполнение кадра пустыми символами
 	void clearBuff() {
@@ -105,16 +136,25 @@ public:
 		}
 	}
 
-	Frame() {
-		buff[width * height] = '\0';
+	Frame(unsigned int _width = 120, unsigned int _height = 30) {
+		this->width = _width;
+		this->height = _height;
+
+		buff = new char[width * height + 1];
+		buff[this->width * this->height] = '\0';
 		this->clearBuff();
 	}
+	~Frame() {
+		delete[] buff;
+	}
 
-	void setScreenSize(int new_width, int new_height) {
+	void setScreenSize(int new_width, int new_height) { //NOT STABLE!!!
 		this->width = new_width;
 		this->height = new_height;
 		this->screen_scale = (float)width / height;
+
 		this->buff = new char[new_width * new_height + 1];
+		buff[new_width * new_height] = '\0';
 		this->clearBuff();
 	}
 
@@ -140,12 +180,23 @@ public:
 		}
 		WriteConsoleOutputCharacterA(Console, buff, width * height, { 0, 0 }, &BytesWritten);
 	}
+	void drawBuffA(ConsoleBuffer cBuff, bool showInfo = true) {
+		if (showInfo) {
+			sprintf_s(buff, 16, "VisualRay v0.1a");
+		}
+		WriteConsoleOutputCharacterA(cBuff.Console, buff, width * height, { 0, 0 }, &cBuff.BytesWritten);
+	}
+
+	void setPixel(char sym, int solid_x, int solid_y) {
+		solid_x = clamp(solid_x, 0, this->width);
+		solid_y = clamp(solid_y, 0, this->height);
+		this->buff[solid_x + solid_y * width] = sym;
+	}
 
 	//функции отрисовки базовой геометрии
-	//функции отрисовки c использованием двумерных векторов
 
 	//прямоугольник
-	void drawBox(vec2 pos = vec2(0), vec2 size = vec2(0.1, 0.1), char filler = '#') {
+	void drawBox(vec2 pos = vec2(0), vec2 size = vec2(.1, .1), char filler = '#') {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 
@@ -159,7 +210,7 @@ public:
 		}
 	}
 	//эллипс
-	void drawEllipse(vec2 pos = vec2(0), vec2 size = vec2(0.1, 0.1), char filler = '#') {
+	void drawEllipse(vec2 pos = vec2(0), vec2 size = vec2(.1, .1), char filler = '#') {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				float x = (float)i / width * 2.0f - 1.0f;
